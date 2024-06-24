@@ -1,8 +1,10 @@
 import { Module } from '@nestjs/common';
 import { DatabaseModule } from './database/database.module';
+import { SharedModule } from './shared/shared.module';
+import { CoursesModule } from './courses/courses.module';
 
 @Module({
-    imports: [DatabaseModule],
+    imports: [DatabaseModule, SharedModule, CoursesModule],
     controllers: [],
     providers: []
 })
