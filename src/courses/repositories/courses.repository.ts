@@ -5,11 +5,15 @@ import { GenericRepository } from '../../shared/repositories/generic.repository'
 @Injectable({})
 export class CoursesRepository extends GenericRepository<Course> {
     async find() {
-        return await super._find(Course);
+        return await this.dataSource
+            .getRepository(Course)
+            .find({ relations: { tags: true } });
     }
 
     async findOne(id: string) {
-        return await super._findOne(Course, id);
+        return await this.dataSource
+            .getRepository(Course)
+            .find({ relations: { tags: true }, where: { id } });
     }
 
     async create(course: Course) {

@@ -3,18 +3,30 @@ import { CoursesController } from './courses.controller';
 import { CoursesService } from './courses.service';
 
 describe('CoursesController', () => {
-  let controller: CoursesController;
+    let controller: CoursesController;
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      controllers: [CoursesController],
-      providers: [CoursesService],
-    }).compile();
+    const mockCoursesService = {
+        create: jest.fn(),
+        findAll: jest.fn(),
+        findOne: jest.fn(),
+        update: jest.fn(),
+        remove: jest.fn(),
+        preloadTagByName: jest.fn()
+    };
 
-    controller = module.get<CoursesController>(CoursesController);
-  });
+    beforeEach(async () => {
+        const module: TestingModule = await Test.createTestingModule({
+            controllers: [CoursesController],
+            providers: [CoursesService]
+        })
+            .overrideProvider(CoursesService)
+            .useValue(mockCoursesService)
+            .compile();
 
-  it('should be defined', () => {
-    expect(controller).toBeDefined();
-  });
+        controller = module.get<CoursesController>(CoursesController);
+    });
+
+    it('should be defined', () => {
+        expect(controller).toBeDefined();
+    });
 });
